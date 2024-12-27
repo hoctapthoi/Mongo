@@ -1,0 +1,26 @@
+[root@node1 ~]# 
+systemctl stop mongod
+mongod --configsvr --dbpath /var/lib/cfgsvr1 --port  27018 --fork --logpath /var/lib/cfgsvr1/log --logappend --replSet configReplSet --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet1 --dbpath /var/lib/replica11 --logpath /var/lib/replica11/log --port 27011 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet1 --dbpath /var/lib/replica12 --logpath /var/lib/replica12/log --port 27012 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet1 --dbpath /var/lib/replica13 --logpath /var/lib/replica13/log --port 27013 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+
+mongos --configdb configReplSet/node1:27018,node1:27019,node1:27020 --logpath /var/lib/mongos.log --fork --logappend --bind_ip 0.0.0.0
+
+[root@node2 ~]# systemctl stop mongod
+mongod --configsvr --dbpath /var/lib/cfgsvr2 --port  27019 --fork --logpath /var/lib/cfgsvr2/log --logappend --replSet configReplSet --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet2 --dbpath /var/lib/replica21 --logpath /var/lib/replica21/log --port 27021 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet2 --dbpath /var/lib/replica22 --logpath /var/lib/replica22/log --port 27022 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet2 --dbpath /var/lib/replica23 --logpath /var/lib/replica23/log --port 27023 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+
+mongos --configdb configReplSet/node1:27018,node1:27019,node1:27020 --logpath /var/lib/mongos.log --fork --logappend --bind_ip 0.0.0.0
+
+[root@node3 ~]#  
+systemctl stop mongod
+mongod --configsvr --dbpath /var/lib/cfgsvr3 --port  27020 --fork --logpath /var/lib/cfgsvr3/log --logappend --replSet configReplSet --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet3 --dbpath /var/lib/replica31 --logpath /var/lib/replica31/log --port 27031 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet3 --dbpath /var/lib/replica32 --logpath /var/lib/replica32/log --port 27032 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+mongod --shardsvr --replSet ReplicaSet3 --dbpath /var/lib/replica33 --logpath /var/lib/replica33/log --port 27033 --logappend --oplogSize 50 --fork --bind_ip 0.0.0.0
+
+mongos --configdb configReplSet/node1:27018,node1:27019,node1:27020 --logpath /var/lib/mongos.log --fork --logappend --bind_ip 0.0.0.0
+
